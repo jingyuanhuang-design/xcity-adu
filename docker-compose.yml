@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./server-dotnet
+      dockerfile: Dockerfile
+    container_name: xcity-adu-backend
+    ports:
+      - "5000:5000"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5000
+    networks:
+      - xcity-network
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend-demo
+      dockerfile: Dockerfile
+    container_name: xcity-adu-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - xcity-network
+    restart: unless-stopped
+
+networks:
+  xcity-network:
+    driver: bridge

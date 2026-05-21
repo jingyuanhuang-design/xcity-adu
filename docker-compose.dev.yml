@@ -1,0 +1,42 @@
+version: '3.8'
+
+# Development mode with hot reload
+services:
+  backend:
+    build:
+      context: ./server-dotnet
+      dockerfile: Dockerfile.dev
+    container_name: xcity-adu-backend-dev
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./server-dotnet:/src
+      - /src/XBuildApi/bin
+      - /src/XBuildApi/obj
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5000
+      - DOTNET_USE_POLLING_FILE_WATCHER=true
+    networks:
+      - xcity-network
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend-demo
+      dockerfile: Dockerfile.dev
+    container_name: xcity-adu-frontend-dev
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend-demo:/app
+      - /app/node_modules
+    environment:
+      - VITE_API_URL=http://localhost:5000
+    networks:
+      - xcity-network
+    restart: unless-stopped
+
+networks:
+  xcity-network:
+    driver: bridge

@@ -13,6 +13,67 @@ server-dotnet/   # .NET Web API（XBuildApi）
 figma/           # 前端（Vite + React）
 ```
 
+## 快速启动（Docker）
+
+使用 Docker Compose 一键启动完整应用：
+
+```bash
+# 构建并启动所有服务
+docker-compose up
+
+# 后台运行
+docker-compose up -d
+
+# 重新构建并启动
+docker-compose up --build
+
+# 停止服务
+docker-compose down
+```
+
+服务访问地址：
+- 前端：http://localhost
+- 后端 API：http://localhost:5000
+
+### 单独构建服务
+
+```bash
+# 仅构建后端
+docker-compose build backend
+
+# 仅构建前端
+docker-compose build frontend
+
+# 仅启动后端
+docker-compose up backend
+
+# 仅启动前端
+docker-compose up frontend
+```
+
+### 开发模式（支持热重载）
+
+使用开发版 Docker Compose 配置，支持代码热重载：
+
+```bash
+# 启动开发环境
+docker-compose -f docker-compose.dev.yml up
+
+# 后台运行
+docker-compose -f docker-compose.dev.yml up -d
+
+# 停止开发环境
+docker-compose -f docker-compose.dev.yml down
+```
+
+开发环境访问地址：
+- 前端开发服务器：http://localhost:5173
+- 后端 API：http://localhost:5000
+
+代码修改会自动触发重新编译和热重载。
+
+也可以使用本地环境进行开发（见下方"后端"和"前端"章节）。
+
 ## 后端：server-dotnet
 
 - 解决方案：`server-dotnet/XBuildApi.sln`

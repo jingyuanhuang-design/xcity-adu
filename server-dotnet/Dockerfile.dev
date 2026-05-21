@@ -1,0 +1,21 @@
+# Development Dockerfile with hot reload
+FROM mcr.microsoft.com/dotnet/sdk:8.0
+WORKDIR /src
+
+# Install dotnet-watch for hot reload
+RUN dotnet tool install --global dotnet-watch
+
+# Copy csproj and restore dependencies
+COPY XBuildApi/XBuildApi.csproj XBuildApi/
+RUN dotnet restore XBuildApi/XBuildApi.csproj
+
+# Copy source files
+COPY . .
+
+WORKDIR /src/XBuildApi
+
+EXPOSE 5000
+ENV ASPNETCORE_URLS=http://+:5000
+
+# Use dotnet watch for hot reload
+CMD ["dotnet", "watch", "run", "--no-restore"]
