@@ -76,8 +76,15 @@ builder.Services.AddSingleton<PlanBuilder>();
 builder.Services.AddSingleton<SeattleOfficialLookupProvider>();
 builder.Services.AddSingleton<NewYorkOfficialLookupProvider>();
 builder.Services.AddSingleton<NewJerseyOfficialLookupProvider>();
+builder.Services.AddSingleton<XBuildApi.Lookup.Providers.KingCountyLookupProvider>();
 
 builder.Services.AddSingleton<XBuildApi.Site.OverpassRoadService>();
+// King County city-specific adapters registered before the Seattle/WA catch-all so they take priority.
+builder.Services.AddSingleton<XBuildApi.Site.ISiteRegionAdapter, XBuildApi.Site.BellevueRegionAdapter>();
+builder.Services.AddSingleton<XBuildApi.Site.ISiteRegionAdapter, XBuildApi.Site.RedmondRegionAdapter>();
+builder.Services.AddSingleton<XBuildApi.Site.ISiteRegionAdapter, XBuildApi.Site.KirklandRegionAdapter>();
+builder.Services.AddSingleton<XBuildApi.Site.ISiteRegionAdapter, XBuildApi.Site.RentonRegionAdapter>();
+builder.Services.AddSingleton<XBuildApi.Site.ISiteRegionAdapter, XBuildApi.Site.KingCountyRegionAdapter>();
 builder.Services.AddSingleton<XBuildApi.Site.ISiteRegionAdapter, XBuildApi.Site.SeattleRegionAdapter>();
 builder.Services.AddSingleton<XBuildApi.Site.ISiteRegionAdapter, XBuildApi.Site.NewYorkRegionAdapter>();
 builder.Services.AddSingleton<XBuildApi.Site.ISiteRegionAdapter, XBuildApi.Site.NewJerseyRegionAdapter>();
